@@ -1,7 +1,7 @@
 FROM oven/bun
 
 # Install packages for development
-RUN apt-get update && apt-get install git curl
+RUN apt-get update && apt-get install -y git curl
 
 # Set working directory
 WORKDIR /usr/app
