@@ -32,3 +32,7 @@ docker compose up
 ```bash
 docker compose -f docker-compose.dev.yaml up
 ```
+
+## Commands
+
+Create new command by duplicating `commands/test.ts` and replace `<command-name>` accordingly in the file.
