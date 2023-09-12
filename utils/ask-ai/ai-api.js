@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { isEmpty } from 'lodash';
-import Config from 'config/env';
 
 export const OPENROUTER_BASE_API_URL = 'https://openrouter.ai/api/v1';
 
@@ -63,13 +62,13 @@ export async function aiApi(options) {
 
     // default headers
     let headers = {
-        'HTTP-Referer': Config.BASE_URL,
-        'X-Title': `DIGICORD (${Config.ENV_SHORT})`,
+        'HTTP-Referer': process.env.BASE_URL || "http://localhost",
+        'X-Title': `OPENROUTER-DISCORD (${process.env.ENV_SHORT || "DEV"})`,
     };
     if (!isEmpty(options.headers)) headers = { ...headers, ...options.headers };
 
     // Authentication
-    if (Config.OPENROUTER_KEY) headers.Authorization = `Bearer ${Config.OPENROUTER_KEY}`;
+    if (process.env.OPENROUTER_KEY) headers.Authorization = `Bearer ${process.env.OPENROUTER_KEY}`;
     if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
     if (['POST', 'PATCH', 'DELETE'].includes(method?.toUpperCase())) {

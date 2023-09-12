@@ -1,9 +1,8 @@
 import api from 'api';
-import Config from 'config/env';
-import { wait } from 'plugins/helper/wait';
+import { wait } from '@/utils/general/wait';
 
 const sdk = api('@leonardoai/v1.0#28807z41owlgnis8jg');
-sdk.auth(Config.LEONARDO_KEY);
+sdk.auth(process.env.LEONARDO_KEY);
 
 export const leoModels = [
     { id: 'ac614f96-1082-45bf-be9d-757f2d31c174', name: 'DreamShaper v7' },

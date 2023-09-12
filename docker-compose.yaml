@@ -30,4 +30,9 @@ services:
         environment:
             - NODE_ENV=development
             - PORT=3000
+            - DEBUG=1
+            # - DISCORD_TOKEN=
+            # - DISCORD_APP_ID=
+            # - OPENROUTER_KEY=
+            # - LEONARDO_KEY=
         command: bun run dev

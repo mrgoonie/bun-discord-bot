@@ -1,8 +1,11 @@
 // import discord.js
+import fs from 'node:fs';
+import path from 'node:path';
 
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
 
 import type DiscordCommand from './interfaces/discord-command';
+import { refreshAllGuildCommands } from './utils/discord/guilds/refresh-commands';
 // import { refreshAllGuildCommands } from './utils/discord/guilds/refresh-commands';
 
 // create a new Client instance
@@ -28,27 +31,29 @@ const commandsJSON: any[] = [];
 client.once(Events.ClientReady, (c) => {
     console.log(`Ready! Logged in as ${c.user.tag}`);
 
-    // {
-    //     const commandsDir = path.resolve('./commands');
-    //     const commandFiles = fs.readdirSync(commandsDir).filter((file) => file.endsWith('.ts'));
+    {
+        const commandsDir = path.resolve('./commands');
+        const commandFiles = fs.readdirSync(commandsDir).filter((file) => file.endsWith('.ts'));
 
-    //     Promise.all(
-    //         commandFiles.map(async (file) => {
-    //             const filePath = path.join(commandsDir, file);
-    //             const commandImport = await import(filePath);
-    //             const command = commandImport.default;
-    //             commands.set(command.data.name, command);
-    //             commandsJSON.push(command.data.toJSON());
-    //         })
-    //     ).then(async () => {
-    //         // The put method is used to fully refresh all commands in the guild with the current set
-    //         const appID = process.env.DISCORD_APP_ID;
-    //         const guildID = process.env.DISCORD_GUILD_ID;
-    //         const botToken = process.env.DISCORD_TOKEN;
+        Promise.all(
+            commandFiles.map(async (file) => {
+                const filePath = path.join(commandsDir, file);
+                const commandImport = await import(filePath);
+                const command = commandImport.default;
+                commands.set(command.data.name, command);
+                commandsJSON.push(command.data.toJSON());
+            })
+        )
+            .then(async () => {
+                // The put method is used to fully refresh all commands in the guild with the current set
+                const botToken = process.env.DISCORD_TOKEN;
+                const appID = process.env.DISCORD_APP_ID;
+                const guildID = process.env.DISCORD_GUILD_ID;
 
-    //         if (appID && botToken && guildID) refreshAllGuildCommands(botToken, appID, guildID, commandsJSON);
-    //     });
-    // }
+                if (appID && botToken && guildID) refreshAllGuildCommands(botToken, appID, guildID, commandsJSON);
+            })
+            .catch((e) => console.log('e :>> ', e));
+    }
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

@@ -1,5 +1,4 @@
-import Config from 'config/env';
-import { aiApi } from 'plugins/ask-ai/ai-api';
+import { aiApi } from './ai-api';
 
 export function combineCodeSnippetInMessageArray(inputArray) {
     const combinedArray = [];
@@ -31,10 +30,10 @@ export function combineCodeSnippetInMessageArray(inputArray) {
  *
  * @param {string} question
  * @param {string} model - Default: `google/palm-2-codechat-bison`
- * @returns {Promise<string[]|{error:string}>}
+ * @returns {Promise<{error:string|undefined,content:string[]|undefined}>}
  */
 export async function askAi(question, model = aiModels[0], username = '') {
-    if (Config.DEBUG) console.log('[ASK AI] Question :>> ', question);
+    if (process.env.DEBUG) console.log('[ASK AI] Question :>> ', question);
 
     /**
      * @type {import('plugins/ask-ai/ai-api').AskAIDto}
@@ -57,9 +56,9 @@ export async function askAi(question, model = aiModels[0], username = '') {
     const res = await aiApi({
         data,
         username,
-        isDebugging: Config.DEBUG,
+        isDebugging: process.env.DEBUG,
     });
-    if (Config.DEBUG) console.log('[ASK AI] res :>> ', res);
+    if (process.env.DEBUG) console.log('[ASK AI] res :>> ', res);
     // console.log('res.choices[0] :>> ', res.choices[0]);
 
     if (res.status === 0) {
@@ -74,8 +73,8 @@ export async function askAi(question, model = aiModels[0], username = '') {
         // combine only code snippets
         resMsgs = combineCodeSnippetInMessageArray(resMsgs);
 
-        if (Config.DEBUG) console.log('[ASK AI] Answers :>> ', resMsgs);
+        if (process.env.DEBUG) console.log('[ASK AI] Answers :>> ', resMsgs);
 
-        return resMsgs;
+        return { error: undefined, content: resMsgs };
     }
 }
