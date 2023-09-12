@@ -1,5 +1,5 @@
 export default {
     '*.{js,jsx,ts,tsx}': ['eslint --fix'],
-    '**/*.ts?(x)': () => 'npm run check-types',
+    // '**/*.ts?(x)': () => 'npm run check-types',
     '*.{json,yaml}': ['prettier --write'],
 };

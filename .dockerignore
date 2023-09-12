@@ -1,33 +1,35 @@
-node_modules/
-yarn.lock
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/engine/reference/builder/#dockerignore-file
 
-.env
-.env.*
-
-# pnpm-lock.yaml
-Dockerfile
-Dockerfile.*
-.git
-deployment.*.yaml
-docker-compose.*.yaml
-
-00-namespace.yaml
-01-cert-secret.yaml
-02-cert-issuer.yaml
-03-certificate.yaml
-04-ingress.yaml
-05-podman-fuse-device-plugin.yaml
-gcloud-secret.yaml
-
-# diginext
-dx.json
-
-# dev api
-thunder-tests/
-thunder-tests/**
-
-# ignore directories which already mounted volume "storage"
-storage/
-# public/
-docs/
-# dist/
+**/.DS_Store
+**/__pycache__
+**/.venv
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/bin
+**/charts
+**/docker-compose*
+**/compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+docker
+LICENSE
+README.md

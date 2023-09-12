@@ -1,0 +1,33 @@
+version: '3'
+networks:
+    bridge:
+        driver: bridge
+volumes:
+    node:
+    root:
+services:
+    bun-discord-bot:
+        container_name: bun-discord-bot
+        build:
+            context: .
+            tags:
+                - mrgoonie/bun-discord-bot:dev
+            cache_to:
+                - type=inline
+            cache_from:
+                - type=registry,ref=mrgoonie/bun-discord-bot
+            dockerfile: Dockerfile.dev
+        ports:
+            - '3000:3000'
+        networks:
+            - bridge
+        volumes:
+            # Persist NODE_MODULES & HOME DIR (root) with named Docker volume
+            - node:/usr/app/node_modules/
+            - root:/root
+            # Persist data with host path -> HOST:CONTAINER
+            - .:/usr/app/
+        environment:
+            - NODE_ENV=development
+            - PORT=3000
+        command: bun run dev
