@@ -1,0 +1,8 @@
+**/dist/**
+**/node_modules/**
+*.js
+.yarn
+**/templates/**
+**/storage/**
+storage/**
+__tests__/**/*
